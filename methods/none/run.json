@@ -1,5 +1,0 @@
-{
-    "displayName": "Example Splitter",
-    "exec": "python run.py",
-    "mode": "exec"
-}
