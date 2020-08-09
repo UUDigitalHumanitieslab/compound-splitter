@@ -3,15 +3,7 @@
 
 name: Unit tests
 
-on:
-    push:
-        branches:
-            - 'develop'
-            - 'main'
-            - 'feature/**'
-            - 'bugfix/**'
-            - 'hotfix/**'
-            - 'release/**'
+on: [push]
 
 jobs:
   build:
