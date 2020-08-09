@@ -38,9 +38,9 @@ def score(actual: str, expected: str) -> Tuple[int, int, int]:
                 # done processing!
                 break
             else:
-                raise(f"Missaligned at actual index {actual_index}")
+                raise Exception(f"Missaligned at actual index {actual_index}")
         elif expected_index >= expected_len:
-            raise(f"Missaligned at actual index {expected_index}")
+            raise Exception(f"Missaligned at actual index {expected_index}")
 
         if actual[actual_index] == expected[expected_index]:
             if actual[actual_index] == "_":
