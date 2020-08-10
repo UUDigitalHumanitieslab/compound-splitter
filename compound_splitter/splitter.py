@@ -4,9 +4,6 @@ import os
 import json
 import importlib
 
-from flask import Flask, jsonify
-app = Flask(__name__)
-
 METHODS_DIR = 'methods'
 
 
@@ -31,15 +28,6 @@ def get_method(name: str):
 
     return method
 
-
-@app.route("/split/<method_name>/<compound>")
-def split(method_name: str, compound: str):
-    method = get_method(method_name)
-    result = method.split(compound)
-    return jsonify(result)
-
-
-@app.route("/list")
 def list_methods():
     methods = []
     for name in os.listdir(METHODS_DIR):
@@ -48,8 +36,4 @@ def list_methods():
                 "name": name,
                 **get_method_data(name)
             }]
-    return jsonify(methods)
-
-
-if __name__ == '__main__':
-    app.run()
+    return methods
