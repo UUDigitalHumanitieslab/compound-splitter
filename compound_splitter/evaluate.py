@@ -1,3 +1,5 @@
+import csv
+import os
 from math import nan
 from typing import Tuple, List
 from .splitter import get_method, list_methods
@@ -6,8 +8,26 @@ COMPOUND_SPLIT_CHAR = "_"
 
 
 def compare_methods():
-    stats = list(evaluate_methods(test_set))
-    stats.sort(key=lambda item: item["accuracy"], reverse=True)
+    for test_set_name, test_set in read_test_sets():
+        stats = list(evaluate_methods(test_set))
+        stats.sort(key=lambda item: item["accuracy"], reverse=True)
+
+        for stat in stats:
+            stat["test_set"] = test_set_name
+        yield test_set_name, stats
+
+
+def read_test_sets():
+    dirname = os.path.dirname(__file__)
+    test_sets_dir = os.path.join(dirname, "..", "test_sets")
+    for test_set_name in os.listdir(test_sets_dir):
+        test_set = []
+        with open(os.path.join(test_sets_dir, test_set_name)) as csvfile:
+            test_reader = csv.DictReader(csvfile)
+            for row in test_reader:
+                test_set.append((row["compound"], row["expected"]))
+
+        yield test_set_name, test_set
 
 
 def evaluate_methods(test_set: List[Tuple[str, str]]):
@@ -118,4 +138,14 @@ def score(actual: str, expected: str) -> Tuple[int, int, int]:
 
 
 if __name__ == '__main__':
-    print("hello world!")
+    for test_set_name, stats in compare_methods():
+        print(f"=== TEST SET {test_set_name} ===")
+        for stat in stats:
+            precision = stat["precision"]
+            recall = stat["recall"]
+            accuracy = stat["accuracy"]
+            print("Method:    " + stat["displayName"])
+            print("F1:        " + str(2 * (precision*recall) / (precision+recall)))
+            print(f"Precision: {precision}")
+            print(f"Recall:    {recall}")
+            print(f"Accuracy:  {accuracy}\n\n")

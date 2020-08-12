@@ -28,6 +28,7 @@ def get_method(name: str):
 
     return method
 
+
 def list_methods():
     methods = []
     for name in os.listdir(METHODS_DIR):
