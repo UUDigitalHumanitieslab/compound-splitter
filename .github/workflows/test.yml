@@ -38,5 +38,5 @@ jobs:
       run: |
         python -m unittest discover tests/
     - name: Run evaluation
-    - run: |
+      run: |
         python -m compound_splitter.evaluate
