@@ -1,1 +1,6 @@
 *.pyc
+.mypy_cache
+dependencies
+
+# location of extracted method binaries
+methods/*/bin

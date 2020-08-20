@@ -15,6 +15,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Checkout tools repo
+      uses: actions/checkout@v2
+      with:
+        repository: UUDigitalHumanitieslab/compound-splitter-dependencies
+        path: dependencies
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:

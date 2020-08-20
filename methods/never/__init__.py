@@ -7,3 +7,11 @@ def split(word: str):
             }
         ]
     }
+
+
+def start():
+    pass
+
+
+def stop():
+    pass

@@ -14,6 +14,12 @@ class Module:
     def split(self, compound: str):
         return self.module.split(compound)
 
+    def start(self):
+        self.module.start()
+
+    def stop(self):
+        self.module.stop()
+
 
 def get_method_data(name: str):
     with open(os.path.join(METHODS_DIR, name, 'run.json')) as run_json:

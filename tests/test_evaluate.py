@@ -1,10 +1,30 @@
 #!/usr/bin/env python3
 import unittest
-from compound_splitter.evaluate import score
+from compound_splitter.evaluate import COMPOUND_SPLIT_CHAR, score
 from typing import List
 
 
 class TestEvaluate(unittest.TestCase):
+    def test_interfix(self):
+        pairs = [
+            (["huis", "jacht"], ["huizen", "jacht"]),
+            (["pan", "koek"], ["pannen", "koek"]),
+            (["bed", "winkel"], ["bedden", "winkel"]),
+            (["zon", "scherm"], ["zonne", "scherm"])
+        ]
+        for actual, expected in list(pairs):
+            # other way around should also work
+            pairs.append((expected, actual))
+
+        for actual, expected in pairs:
+            false_negatives, false_positives, true_positives = \
+                score(
+                    str.join(COMPOUND_SPLIT_CHAR, actual),
+                    str.join(COMPOUND_SPLIT_CHAR, expected))
+            assert false_negatives == 0
+            assert false_positives == 0
+            assert true_positives == 1
+
     def test_score(self):
         # word length
         # every position could be either
@@ -59,7 +79,7 @@ def generate_test_word(parts: List[str], splits: List[bool]):
     for part, split in zip(parts, splits):
         word += part
         if split:
-            word += '_'
+            word += COMPOUND_SPLIT_CHAR
     return word + parts[-1]
 
 
@@ -68,19 +88,5 @@ def generate_test_words(parts: List[str]):
         yield (0, parts[0])
     else:
         for (splits, word) in generate_test_words(parts[:-1]):
-            yield (splits+1, word + '_' + parts[-1])
+            yield (splits+1, word + COMPOUND_SPLIT_CHAR + parts[-1])
             yield (splits, word + parts[-1])
-    # if length == 0:
-    #     yield ''
-    #     return
-    # if can_split and length > 1:
-    #     for word in generate_test_words(length-1, False, splits+1):
-    #         yield 'a_' + word
-    # for word in generate_test_words(length-1, True, splits):
-    #     yield 'a' + word
-    # start:
-    # can't split
-
-    # then to split or not to split:
-    # if split, can't split afterwards
-    # if did not split can or cannot split
