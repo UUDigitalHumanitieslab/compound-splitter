@@ -19,6 +19,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: UUDigitalHumanitieslab/compound-splitter-dependencies
+        token: ${{ secrets.DEPENDENCIES_PAT }}
         path: dependencies
         ref: main
     - name: Set up Python ${{ matrix.python-version }}
