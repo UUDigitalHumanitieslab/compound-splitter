@@ -20,6 +20,7 @@ jobs:
       with:
         repository: UUDigitalHumanitieslab/compound-splitter-dependencies
         path: dependencies
+        ref: main
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
