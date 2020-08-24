@@ -1,9 +1,10 @@
+from typing import cast, Dict
 from flask import Flask, jsonify
-from .splitter import list_methods, get_method
+from .splitter import list_methods, get_method, Module
 
 app = Flask(__name__)
 
-started_methods = {}
+started_methods = cast(Dict[str, Module], {})
 
 
 @app.route("/split/<method_name>/<compound>")
