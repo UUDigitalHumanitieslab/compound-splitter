@@ -22,6 +22,24 @@ jobs:
         token: ${{ secrets.DEPENDENCIES_PAT }}
         path: dependencies
         ref: main
+
+    - name: Create LFS file list
+      run: |
+        cd dependencies
+        git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+    - name: Restore LFS cache
+      uses: actions/cache@v2
+      id: lfs-cache
+      with:
+        path: dependencies/.git/lfs
+        key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}-v1
+
+    - name: Git LFS pull
+      run: |
+        cd dependencies
+        git lfs pull
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:

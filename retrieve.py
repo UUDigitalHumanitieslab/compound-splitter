@@ -6,6 +6,14 @@ files = [{
     "filename": "compound-splitter-nl.tar.gz",
     "url": "https://ilps.science.uva.nl/ilps/wp-content/uploads/sites/6/files/compound-splitter-nl.tar.gz",
     "manual": True
+}, {
+    "filename": "secos.zip",
+    "url": "https://github.com/riedlma/SECOS/archive/master.zip",
+    "manual": False
+}, {
+    "filename": "secos-nl.zip",
+    "url": "https://ltmaggie.informatik.uni-hamburg.de/files/SECOS/data.zip",
+    "manual": True
 }]
 
 os.makedirs(target_dir, exist_ok=True)
