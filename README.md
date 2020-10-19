@@ -22,3 +22,8 @@ python -m compound_splitter.evaluate
 ```bash
 python -m compound_splitter.api_web
 ```
+
+# Run socket server
+```bash
+python -m compound_splitter.socket_server
+```
