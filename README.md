@@ -44,7 +44,7 @@ Splits the compound using the specified method.
 ## Run Simple Socket Server
 
 ```bash
-python socket_server.py
+python -m compound_splitter.socket_server
 ```
 
 ```bash
