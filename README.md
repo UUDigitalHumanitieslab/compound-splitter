@@ -32,6 +32,7 @@ python -m compound_splitter.evaluate
 python -m compound_splitter.api_web
 ```
 
+<<<<<<< HEAD
 ### JSON Interface
 
  `GET /list`
@@ -66,3 +67,9 @@ python setup.py install
 compound-splitters-nl-api # starts the web API
 compound-splitters-nl-socket # start the socket server
 ```
+=======
+# Run socket server
+```bash
+python -m compound_splitter.socket_server
+```
+>>>>>>> move socket server code
