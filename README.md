@@ -1,3 +1,9 @@
+# On first use
+
+The MCS splitter requires a Java installation.
+
+All methods:
+
 ``` bash
 pip install -r requirements.txt
 python retrieve.py

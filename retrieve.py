@@ -14,6 +14,18 @@ files = [{
     "filename": "secos-nl.zip",
     "url": "https://ltmaggie.informatik.uni-hamburg.de/files/SECOS/data.zip",
     "manual": True
+}, {
+    "filename": "MCS.jar", 
+    "url": "https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/MCS.jar",
+    "manual": False
+}, {
+    "filename": "MCS_lemmaset.tsv",
+    "url": "https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/Wikipedia.NL.LEMMASET.tsv",
+    "manual": False
+}, {
+    "filename": "MCS_mopset.tsv",
+    "url": "https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/Wikipedia.NL.WORDMOPs.tsv",
+    "manual": False
 }]
 
 os.makedirs(target_dir, exist_ok=True)
