@@ -44,6 +44,7 @@ def evaluate_methods(test_set: List[Tuple[str, str]]):
 
 def evaluate_method(method_name: str, test_set: List[Tuple[str, str]]):
     method = get_method(method_name)
+    print("METHOD:", method_name)
     method.start()
     splits = []
     try:
@@ -62,6 +63,7 @@ def evaluate_method(method_name: str, test_set: List[Tuple[str, str]]):
             for candidate in candidates:
                 if candidate["score"] >= highest_score:
                     best_candidate = candidate
+                    highest_score = candidate["score"]
 
             if best_candidate is None:
                 # Nothing returned! Evaluate as if nothing was split
