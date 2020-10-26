@@ -16,6 +16,18 @@ files = [{
     "filename": "secos-nl.zip",
     # original https://ltmaggie.informatik.uni-hamburg.de/files/SECOS/data.zip
     "url": "https://dhstatic.hum.uu.nl/compound-splitter/secos-nl.zip",
+    "manual": True
+}, {
+    "filename": "MCS.jar", 
+    "url": "https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/MCS.jar",
+    "manual": False
+}, {
+    "filename": "MCS_lemmaset.tsv",
+    "url": "https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/Wikipedia.NL.LEMMASET.tsv",
+    "manual": False
+}, {
+    "filename": "MCS_mopset.tsv",
+    "url": "https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/Wikipedia.NL.WORDMOPs.tsv",
     "manual": False
 }]
 
