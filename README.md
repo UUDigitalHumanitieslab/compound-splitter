@@ -40,3 +40,18 @@ Lists the splitting methods.
 `GET /split/<method_name>/<compound>`
 
 Splits the compound using the specified method.
+
+## Run Simple Socket Server
+
+```bash
+python socket_server.py
+```
+
+```bash
+$ telnet localhost 7005
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+bedrijfsaansprakelijkheidsverzekering,secos
+bedrijfs,aansprakelijkheids,verzekeringConnection closed by foreign host.
+```
