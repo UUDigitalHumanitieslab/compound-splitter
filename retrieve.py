@@ -4,15 +4,18 @@ import urllib.request
 target_dir = "dependencies"
 files = [{
     "filename": "compound-splitter-nl.tar.gz",
-    "url": "https://ilps.science.uva.nl/ilps/wp-content/uploads/sites/6/files/compound-splitter-nl.tar.gz",
+    # original https://ilps.science.uva.nl/ilps/wp-content/uploads/sites/6/files/compound-splitter-nl.tar.gz
+    "url": "https://dhstatic.hum.uu.nl/compound-splitter/compound-splitter-nl.tar.gz",
     "manual": True
 }, {
     "filename": "secos.zip",
-    "url": "https://github.com/riedlma/SECOS/archive/master.zip",
+    # original https://github.com/riedlma/SECOS/archive/master.zip
+    "url": "https://dhstatic.hum.uu.nl/compound-splitter/secos.zip",
     "manual": False
 }, {
     "filename": "secos-nl.zip",
-    "url": "https://ltmaggie.informatik.uni-hamburg.de/files/SECOS/data.zip",
+    # original https://ltmaggie.informatik.uni-hamburg.de/files/SECOS/data.zip
+    "url": "https://dhstatic.hum.uu.nl/compound-splitter/secos-nl.zip",
     "manual": True
 }, {
     "filename": "MCS.jar", 

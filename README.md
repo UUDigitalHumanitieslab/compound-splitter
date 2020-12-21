@@ -1,35 +1,58 @@
-# On first use
+# Compound Splitter
 
-The MCS splitter requires a Java installation.
+This is a basic wrapper for multiple Dutch compound splitters.
 
-All methods:
+## Requirements
+
+* Python 3.6+
+* The [MCS splitter](https://www.ims.uni-stuttgart.de/forschung/ressourcen/werkzeuge/mcs/) requires a Java installation.
 
 ``` bash
 pip install -r requirements.txt
 python retrieve.py
 ```
 
-# Tests
+## Tests
 
 ``` bash
 python -m unittest discover tests/
 ```
 
-# Evaluate Different Compound Algorithms
+## Evaluate Different Compound Algorithms
 
-This will evaluate the different algorithms using the reference files in `test_sets`.
+This will evaluate the different algorithms using the reference files in `test_sets` .
 
-```bash
+``` bash
 python -m compound_splitter.evaluate
 ```
 
-# Run web API
+## Run Web API
 
-```bash
+``` bash
 python -m compound_splitter.api_web
 ```
 
-# Run socket server
-```bash
+### JSON Interface
+
+ `GET /list`
+
+Lists the splitting methods.
+
+ `GET /split/<method_name>/<compound>`
+
+Splits the compound using the specified method.
+
+## Run Simple Socket Server
+
+``` bash
 python -m compound_splitter.socket_server
+```
+
+``` bash
+$ telnet localhost 7005
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+bedrijfsaansprakelijkheidsverzekering,secos
+bedrijfs,aansprakelijkheids,verzekeringConnection closed by foreign host.
 ```

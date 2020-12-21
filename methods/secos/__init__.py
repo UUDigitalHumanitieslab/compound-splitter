@@ -1,7 +1,6 @@
 import os
 import requests
-from subprocess import Popen
-from time import sleep
+from subprocess import Popen, PIPE
 
 # default communication settings of the server
 HOST = "localhost"
@@ -34,6 +33,7 @@ def start():
     global server_proc
     server_proc = Popen(
         ["python",
+         "-u",
          os.path.join(SERVER_PATH, "decompound_server.py"),
          # dt_candidates:   file with words and their split candidates, generated from a distributional thesaurus (DT)
          "data/dutchCoW_trigram__candidates",
@@ -49,16 +49,23 @@ def start():
          "5",
          # dash_word:       heuristic to split words with dash, which has no big impact (recommended: 3)
          "3",
-         # upper:           consider uppercase letters (=upper) or not (=lower). Should be set for case-sensitive languages e.g. German
+         # upper:           consider uppercase letters (=upper) or not (=lower).
+         #                  Should be set for case-sensitive languages e.g. German
          "lower",
          # epsilon:         smoothing factor (recommended parameter: 0.01)
          "0.01",
          str(PORT)],
-        cwd=SERVER_PATH)
+        cwd=SERVER_PATH,
+        stdout=PIPE,
+        universal_newlines=True)
 
     # wait for the server to start
-    sleep(60)
-    pass
+    print("Waiting for SECOS to start...")
+    for output in iter(server_proc.stdout.readline, ""):
+        print(output)
+        if "Starting httpd using port" in output:
+            print("SECOS start detected!")
+            return
 
 
 def stop():
