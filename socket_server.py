@@ -40,8 +40,15 @@ class TCPHandler(socketserver.BaseRequestHandler):
         self.request.sendall(output)
 
 
+def cleanup():
+    for method in started_methods.values():
+        method.stop()
+
 if __name__ == "__main__":
     HOST, PORT = "localhost", 7005
     print("Listening at {}:{}".format(HOST, PORT))
-    with socketserver.TCPServer((HOST, PORT), TCPHandler) as server:
-        server.serve_forever()
+    try:
+        with socketserver.TCPServer((HOST, PORT), TCPHandler) as server:
+            server.serve_forever()
+    finally:
+        cleanup()
