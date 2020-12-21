@@ -4,7 +4,8 @@ import os
 import json
 import importlib
 
-METHODS_DIR = 'methods'
+base_path = os.path.dirname(os.path.dirname(__file__))
+METHODS_DIR = os.path.join(base_path, 'methods')
 
 
 class Module:
