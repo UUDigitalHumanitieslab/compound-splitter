@@ -44,7 +44,8 @@ def cleanup():
     for method in started_methods.values():
         method.stop()
 
-if __name__ == "__main__":
+
+def main():
     HOST, PORT = "localhost", 7005
     print("Listening at {}:{}".format(HOST, PORT))
     try:
@@ -52,3 +53,7 @@ if __name__ == "__main__":
             server.serve_forever()
     finally:
         cleanup()
+
+
+if __name__ == "__main__":
+    main()

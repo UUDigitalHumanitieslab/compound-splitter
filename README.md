@@ -9,6 +9,7 @@ Python 3.6+
 ``` bash
 pip install -r requirements.txt
 python retrieve.py
+python prepare.py
 ```
 
 ## Tests
@@ -19,39 +20,49 @@ python -m unittest discover tests/
 
 ## Evaluate Different Compound Algorithms
 
-This will evaluate the different algorithms using the reference files in `test_sets`.
+This will evaluate the different algorithms using the reference files in `test_sets` .
 
-```bash
+``` bash
 python -m compound_splitter.evaluate
 ```
 
 ## Run Web API
 
-```bash
+``` bash
 python -m compound_splitter.api_web
 ```
 
 ### JSON Interface
 
-`GET /list`
+ `GET /list`
 
 Lists the splitting methods.
 
-`GET /split/<method_name>/<compound>`
+ `GET /split/<method_name>/<compound>`
 
 Splits the compound using the specified method.
 
 ## Run Simple Socket Server
 
-```bash
+``` bash
 python -m compound_splitter.socket_server
 ```
 
-```bash
+``` bash
 $ telnet localhost 7005
 Trying 127.0.0.1...
 Connected to localhost.
 Escape character is '^]'.
 bedrijfsaansprakelijkheidsverzekering,secos
 bedrijfs,aansprakelijkheids,verzekeringConnection closed by foreign host.
+```
+
+## Install
+
+Make sure the requirements are installed and prepared ( `prepare.py` ).
+
+``` bash
+python setup.py install
+compound-splitters-nl-api # starts the web API
+compound-splitters-nl-socket # start the socket server
 ```

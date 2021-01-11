@@ -15,3 +15,7 @@ def start():
 
 def stop():
     pass
+
+
+def prepare():
+    pass

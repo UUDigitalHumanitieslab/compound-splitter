@@ -61,6 +61,3 @@ def prepare():
         tar = tarfile.open(os.path.join(OWN_DIR, "..", "..",
                                         "dependencies", "compound-splitter-nl.tar.gz"))
         tar.extractall(BIN_DIR)
-
-
-prepare()

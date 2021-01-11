@@ -30,8 +30,12 @@ def cleanup():
         method.stop()
 
 
-if __name__ == '__main__':
+def main():
     try:
         app.run()
     finally:
         cleanup()
+
+
+if __name__ == '__main__':
+    main()

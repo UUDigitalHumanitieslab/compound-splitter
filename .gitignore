@@ -1,6 +1,9 @@
 *.pyc
+*.egg-info
 .mypy_cache
-dependencies
+build/
+dist/
+dependencies/
 
 # location of extracted method binaries
 methods/*/bin

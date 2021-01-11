@@ -14,15 +14,6 @@ jobs:
         python-version: [3.7]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Checkout tools repo
-      uses: actions/checkout@v2
-      with:
-        repository: UUDigitalHumanitieslab/compound-splitter-dependencies
-        token: ${{ secrets.DEPENDENCIES_PAT }}
-        path: dependencies
-        ref: main
-
     - name: Cache pip modules
       uses: actions/cache@v2
       with:

@@ -86,6 +86,3 @@ def prepare():
         from zipfile import ZipFile
         with ZipFile(os.path.join(OWN_DIR, "..", "..", "dependencies", "secos-nl.zip")) as archive:
             archive.extractall(SERVER_PATH)
-
-
-prepare()

@@ -1,0 +1,2 @@
+recursive-include methods/*/bin/ *
+global-exclude __pycache__ *.pyc

@@ -21,6 +21,9 @@ class Module:
     def stop(self):
         self.module.stop()
 
+    def prepare(self):
+        self.module.prepare()
+
 
 def get_method_data(name: str):
     with open(os.path.join(METHODS_DIR, name, 'run.json')) as run_json:
@@ -39,6 +42,8 @@ def get_method(name: str):
 def list_methods():
     methods = []
     for name in os.listdir(METHODS_DIR):
+        if name == "__pycache__":
+            continue
         if os.path.isdir(os.path.join(METHODS_DIR, name)):
             methods += [{
                 "name": name,
