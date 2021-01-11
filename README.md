@@ -67,9 +67,9 @@ python setup.py install
 compound-splitters-nl-api # starts the web API
 compound-splitters-nl-socket # start the socket server
 ```
+<<<<<<< HEAD
 =======
 # Run socket server
 ```bash
 python -m compound_splitter.socket_server
 ```
->>>>>>> move socket server code
