@@ -33,8 +33,8 @@ setup(
                       'requests'],
     entry_points={
         'console_scripts': [
-            'compound-splitters-nl-api = compound_splitter.api_web:main'
-            'compound-splitters-nl-socket = compound_splitter.socket_server:main'
+            'compound-splitters-nl-api=compound_splitter.api_web:main'
+            'compound-splitters-nl-socket=compound_splitter.socket_server:main'
         ]
     }
 )
