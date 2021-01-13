@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import os
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -26,7 +25,7 @@ setup(
         "Intended Audience :: Science/Research",
         'License :: OSI Approved :: BSD License',
     ],
-    package_data = {'methods':['*/bin/**/*'] },
+    package_data={'methods': ['*/bin/**/*']},
     python_requires='>=3.6',
     include_package_data=True,
     install_requires=['Flask',

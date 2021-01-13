@@ -1,6 +1,6 @@
 import socketserver
 from typing import cast, Dict
-from compound_splitter.splitter import list_methods, get_method, Module
+from compound_splitter.splitter import get_method, Module
 
 started_methods = cast(Dict[str, Module], {})
 
