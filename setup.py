@@ -25,7 +25,7 @@ setup(
         "Intended Audience :: Science/Research",
         'License :: OSI Approved :: BSD License',
     ],
-    package_data={'methods': ['*/bin/**/*']},
+    package_data={'methods': ['*/run.json', '*/bin/**/*']},
     python_requires='>=3.6',
     include_package_data=True,
     install_requires=['Flask',
