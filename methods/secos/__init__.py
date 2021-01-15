@@ -1,4 +1,5 @@
 import os
+import sys
 import requests
 from subprocess import Popen, PIPE
 
@@ -32,7 +33,7 @@ def split(word: str):
 def start():
     global server_proc
     server_proc = Popen(
-        ["python",
+        [sys.executable or "python",
          "-u",
          os.path.join(SERVER_PATH, "decompound_server.py"),
          # dt_candidates:   file with words and their split candidates, generated from a distributional thesaurus (DT)
