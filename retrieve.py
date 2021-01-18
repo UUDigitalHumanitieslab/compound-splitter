@@ -18,7 +18,7 @@ files = [{
     "url": "https://dhstatic.hum.uu.nl/compound-splitter/secos-nl.zip",
     "manual": False
 }, {
-    "filename": "MCS.jar", 
+    "filename": "MCS.jar",
     # original https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/MCS.jar
     "url": "https://dhstatic.hum.uu.nl/compound-splitter/MCS.jar",
     "manual": False
