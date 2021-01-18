@@ -4,7 +4,8 @@ This is a basic wrapper for multiple Dutch compound splitters.
 
 ## Requirements
 
-Python 3.6+
+* Python 3.6+
+* The [MCS splitter](https://www.ims.uni-stuttgart.de/forschung/ressourcen/werkzeuge/mcs/) requires a Java installation.
 
 ``` bash
 pip install -r requirements.txt
