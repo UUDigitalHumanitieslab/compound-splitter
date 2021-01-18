@@ -44,3 +44,4 @@ def prepare():
         copy_resource("MCS.jar")
         copy_resource("MCS_lemmaset.tsv")
         copy_resource("MCS_mopset.tsv")
+        
