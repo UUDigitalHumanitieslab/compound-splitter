@@ -17,6 +17,21 @@ files = [{
     # original https://ltmaggie.informatik.uni-hamburg.de/files/SECOS/data.zip
     "url": "https://dhstatic.hum.uu.nl/compound-splitter/secos-nl.zip",
     "manual": False
+}, {
+    "filename": "MCS.jar",
+    # original https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/MCS.jar
+    "url": "https://dhstatic.hum.uu.nl/compound-splitter/MCS.jar",
+    "manual": False
+}, {
+    "filename": "MCS_lemmaset.tsv",
+    # original https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/Wikipedia.NL.LEMMASET.tsv
+    "url": "https://dhstatic.hum.uu.nl/compound-splitter/MCS.Wikipedia.NL.LEMMASET.tsv",
+    "manual": False
+}, {
+    "filename": "MCS_mopset.tsv",
+    # original https://www.ims.uni-stuttgart.de/documents/ressourcen/werkzeuge/MCSfiles/Wikipedia.NL.WORDMOPs.tsv
+    "url": "https://dhstatic.hum.uu.nl/compound-splitter/MCS.Wikipedia.NL.WORDMOPs.tsv",
+    "manual": False
 }]
 
 os.makedirs(target_dir, exist_ok=True)
