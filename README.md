@@ -4,7 +4,7 @@ This is a basic wrapper for multiple Dutch compound splitters.
 
 ## Requirements
 
-* Python 3.6+
+Python 3.6+
 
 ``` bash
 pip install -r requirements.txt
