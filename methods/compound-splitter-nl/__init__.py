@@ -15,15 +15,25 @@ server_proc = None
 
 
 def split(word: str):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as connection:
+    try:
+        # try making a connection...
+        connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         connection.connect((HOST, PORT))
-        connection.sendall((word + "\n").encode())
+    except OSError:
+        # if it fails, wait 10 seconds and try again
+        connection.close()
+        sleep(10)
+        connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        connection.connect((HOST, PORT))
 
-        # rstrip to remove the newline
-        splitted = connection.recv(1024).decode().rstrip()
-        if not splitted:
-            # no split applied
-            splitted = word
+    connection.sendall((word + "\n").encode())
+
+    # rstrip to remove the newline
+    splitted = connection.recv(1024).decode().rstrip()
+    if not splitted:
+        # no split applied
+        splitted = word
+    connection.close()
 
     return {
         "candidates": [
