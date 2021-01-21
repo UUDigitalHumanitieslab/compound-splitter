@@ -11,6 +11,7 @@ COMPOUND_INFIX_TOLERANCE = 4
 class MisalignedError(Exception):
     pass
 
+
 def compare_methods():
     for test_set_name, test_set in read_test_sets():
         stats = list(evaluate_methods(test_set))
@@ -47,6 +48,22 @@ def evaluate_methods(test_set: List[Tuple[str, str]]):
         }
 
 
+def split(method, compound: str) -> str:
+    candidates = method.split(compound)["candidates"]
+    highest_score = 0
+    best_candidate = None
+    for candidate in candidates:
+        if candidate["score"] >= highest_score:
+            best_candidate = candidate
+            highest_score = candidate["score"]
+
+    if best_candidate is None:
+        # Nothing returned! Evaluate as if nothing was split
+        return compound
+    else:
+        return str.join(COMPOUND_SPLIT_CHAR, best_candidate["parts"])
+
+
 def evaluate_method(method_name: str, test_set: List[Tuple[str, str]]):
     method = get_method(method_name)
     print("METHOD:", method_name)
@@ -63,19 +80,7 @@ def evaluate_method(method_name: str, test_set: List[Tuple[str, str]]):
         compounds = 0  # number of compounds in the test set
 
         for compound, expected in test_set:
-            candidates = method.split(compound)["candidates"]
-            highest_score = 0
-            best_candidate = None
-            for candidate in candidates:
-                if candidate["score"] >= highest_score:
-                    best_candidate = candidate
-                    highest_score = candidate["score"]
-
-            if best_candidate is None:
-                # Nothing returned! Evaluate as if nothing was split
-                actual = compound
-            else:
-                actual = str.join(COMPOUND_SPLIT_CHAR, best_candidate["parts"])
+            actual = split(method, compound)
 
             splits.append(actual)
 
