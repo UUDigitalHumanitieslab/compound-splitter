@@ -1,27 +1,30 @@
 import csv
 
-input_file = "./nominalijst_raw.csv"
-output_file = "./nominalijst.csv"
+# Reads the nouns_semtype.data from tscan/data.
+# This file has a restricted license and is not included in the
+# distribution.
+input_file = "../tscan/data/nouns_semtype.data"
+output_file = "./test_sets/nouns_semtype.csv"
 
 
 with open(input_file) as in_file:
-    reader = csv.DictReader(in_file)
+    reader = csv.reader(in_file, delimiter='\t')
 
     def parse(row):
-        is_compound = bool(int(row['samenst']))
+        is_compound = bool(int(row[2]))
 
         if not is_compound:
             data = {
-                'word': row['woord'],
+                'word': row[0],
                 'is_compound': is_compound
             }
         else:
             data = {
-                'word': row['woord'],
+                'word': row[0],
                 'is_compound': is_compound,
-                'n_parts': int(row['aantal_delen']),
-                'head': row['hoofdwoord'],
-                'satellite': row['satelliet_schoon']
+                'n_parts': int(row[5]),
+                'head': row[3],
+                'satellite': row[4]
             }
 
         return data
