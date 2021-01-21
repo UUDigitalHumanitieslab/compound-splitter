@@ -8,6 +8,9 @@ COMPOUND_SPLIT_CHAR = "_"
 COMPOUND_INFIX_TOLERANCE = 4
 
 
+class MisalignedError(Exception):
+    pass
+
 def compare_methods():
     for test_set_name, test_set in read_test_sets():
         stats = list(evaluate_methods(test_set))
@@ -23,6 +26,8 @@ def read_test_sets():
     dirname = os.path.dirname(__file__)
     test_sets_dir = os.path.join(dirname, "..", "test_sets")
     for test_set_name in os.listdir(test_sets_dir):
+        if not test_set_name.endswith(".csv"):
+            continue
         test_set = []
         with open(os.path.join(test_sets_dir, test_set_name)) as csvfile:
             test_reader = csv.DictReader(csvfile)
@@ -46,6 +51,7 @@ def evaluate_method(method_name: str, test_set: List[Tuple[str, str]]):
     method = get_method(method_name)
     print("METHOD:", method_name)
     method.start()
+    skipped = 0
     splits = []
     try:
         # number of correctly passed through words
@@ -73,18 +79,22 @@ def evaluate_method(method_name: str, test_set: List[Tuple[str, str]]):
 
             splits.append(actual)
 
-            false_negatives, false_positives, true_positives = score(
-                actual, expected)
+            try:
+                false_negatives, false_positives, true_positives = score(
+                    actual, expected)
 
-            if not false_negatives and not false_positives:
-                if true_positives:
-                    splitted_correctly += 1
-                else:
-                    passed_correctly += 1
-            if false_positives:
-                splitted_incorrectly += 1
-            if true_positives or false_negatives:
-                compounds += 1
+                if not false_negatives and not false_positives:
+                    if true_positives:
+                        splitted_correctly += 1
+                    else:
+                        passed_correctly += 1
+                if false_positives:
+                    splitted_incorrectly += 1
+                if true_positives or false_negatives:
+                    compounds += 1
+            except MisalignedError as e:
+                skipped += 1
+                print(e)
 
         splitted = splitted_correctly + splitted_incorrectly
 
@@ -105,7 +115,8 @@ def evaluate_method(method_name: str, test_set: List[Tuple[str, str]]):
         "precision": splitted_correctly / splitted if splitted else nan,
         "recall": splitted_correctly / compounds if compounds else nan,
         "accuracy": (passed_correctly + splitted_correctly) / len(test_set),
-        "splits": splits
+        "splits": splits,
+        "skipped": skipped
     }
 
 
@@ -128,10 +139,10 @@ def score(actual: str, expected: str) -> Tuple[int, int, int]:  # noqa: C901
                 # done processing!
                 break
             else:
-                raise Exception(
+                raise MisalignedError(
                     f"Misaligned A ({actual}:{actual_index},{expected}:{expected_index})")
         elif expected_index >= expected_len:
-            raise Exception(
+            raise MisalignedError(
                 f"Misaligned B ({actual}:{actual_index},{expected}:{expected_index})")
 
         if actual[actual_index] == expected[expected_index]:
@@ -163,7 +174,7 @@ def score(actual: str, expected: str) -> Tuple[int, int, int]:  # noqa: C901
         else:
             misalignment_tolerance -= 1
             if misalignment_tolerance <= 0:
-                raise Exception(
+                raise MisalignedError(
                     f"Misaligned C ({actual}:{actual_index},{expected}:{expected_index})")
             else:
                 actual_index += 1
@@ -228,10 +239,15 @@ if __name__ == '__main__':
         print(f"=== TEST SET {test_set_name} ===")
         splits_table(test_set, stats)
         for stat in stats:
+            skipped = stat["skipped"]
+            splits = stat["splits"]
             precision = stat["precision"]
             recall = stat["recall"]
             accuracy = stat["accuracy"]
             print("Method:    " + stat["displayName"])
+            print(f"Word#:     {len(splits)}")
+            if skipped > 0:
+                print(f"Skipped:   {skipped} !!!")
             print("F1:        " + str(2 * (precision*recall) / (precision+recall)))
             print(f"Precision: {precision}")
             print(f"Recall:    {recall}")
