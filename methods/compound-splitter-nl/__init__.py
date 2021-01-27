@@ -54,7 +54,7 @@ def split(word: str):
     return {
         "candidates": [
             {
-                "parts": splitted.split(" "),
+                "parts": splitted.replace("-", " ").split(" "),
                 "score": 1
             }
         ]
