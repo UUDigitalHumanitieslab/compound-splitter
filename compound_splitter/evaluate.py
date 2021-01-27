@@ -1,11 +1,15 @@
 import csv
 import os
 from math import nan
+from random import sample
+from time import perf_counter
 from typing import Tuple, List
 from .splitter import get_method, list_methods
 
 COMPOUND_SPLIT_CHAR = "_"
 COMPOUND_INFIX_TOLERANCE = 4
+
+MAX_TEST_SET_SIZE = 100
 
 
 class MisalignedError(Exception):
@@ -35,16 +39,46 @@ def read_test_sets():
             for row in test_reader:
                 test_set.append((row["compound"], row["expected"]))
 
+        if len(test_set) > MAX_TEST_SET_SIZE:
+            print(
+                f"{test_set_name} limited from {len(test_set)} items to {MAX_TEST_SET_SIZE} (random sample).")
+            test_set = sample(test_set, MAX_TEST_SET_SIZE)
         yield test_set_name, test_set
+
+
+def only_main(compound: str):
+    """Convert a splitted compound into a compound only split into
+    a main compound and its satelite e.g. fietsen_stalling_pas ->
+    fietsenstalling_pas
+
+    Args:
+        compound (str): an underscore splitted compound
+    """
+    splitted = compound.split("_")
+    if len(splitted) == 1:
+        return splitted[0]
+    return "".join(splitted[:-1]) + "_" + splitted[-1]
 
 
 def evaluate_methods(test_set: List[Tuple[str, str]]):
     methods = list_methods()
+    main_test_set = list(
+        (compound, only_main(expected)) for (compound, expected) in test_set)
     for method in methods:
         method_name = method["name"]
+        result = call_method(method_name, test_set)
+        splits = result["splits"]
         yield {
             **method,
-            **evaluate_method(method_name, test_set)
+            **result,
+            **evaluate_method(method_name, test_set, splits)
+        }
+        main_splits = list(only_main(split) for split in splits)
+        yield {
+            **method,
+            **{"displayName": method["displayName"] + " (main)"},
+            **result,
+            **evaluate_method(method_name, main_test_set, main_splits)
         }
 
 
@@ -64,64 +98,77 @@ def split(method, compound: str) -> str:
         return str.join(COMPOUND_SPLIT_CHAR, best_candidate["parts"])
 
 
-def evaluate_method(method_name: str, test_set: List[Tuple[str, str]]):
-    method = get_method(method_name)
-    print("METHOD:", method_name)
-    method.start()
+def evaluate_method(method_name: str,
+                    test_set: List[Tuple[str, str]],
+                    splits: List[str]):
     skipped = 0
-    splits = []
-    try:
-        # number of correctly passed through words
-        # i.e. words which weren't split and should not have been split
-        passed_correctly = 0
+    # number of correctly passed through words
+    # i.e. words which weren't split and should not have been split
+    passed_correctly = 0
 
-        splitted_correctly = 0  # number of correctly split words
-        splitted_incorrectly = 0  # number of words which were splitted
-        compounds = 0  # number of compounds in the test set
+    splitted_correctly = 0  # number of correctly split words
+    splitted_incorrectly = 0  # number of words which were splitted
+    compounds = 0  # number of compounds in the test set
 
-        for compound, expected in test_set:
-            actual = split(method, compound)
+    for (compound, expected), actual in zip(test_set, splits):
+        try:
+            false_negatives, false_positives, true_positives = score(
+                actual, expected)
 
-            splits.append(actual)
+            if not false_negatives and not false_positives:
+                if true_positives:
+                    splitted_correctly += 1
+                else:
+                    passed_correctly += 1
+            if false_positives:
+                splitted_incorrectly += 1
+            if true_positives or false_negatives:
+                compounds += 1
+        except MisalignedError as e:
+            skipped += 1
+            print(e)
 
-            try:
-                false_negatives, false_positives, true_positives = score(
-                    actual, expected)
+    splitted = splitted_correctly + splitted_incorrectly
 
-                if not false_negatives and not false_positives:
-                    if true_positives:
-                        splitted_correctly += 1
-                    else:
-                        passed_correctly += 1
-                if false_positives:
-                    splitted_incorrectly += 1
-                if true_positives or false_negatives:
-                    compounds += 1
-            except MisalignedError as e:
-                skipped += 1
-                print(e)
-
-        splitted = splitted_correctly + splitted_incorrectly
-
-        # TODO:
-        # precision recall
-        # word level: compound split is is either considered wrong or false
-        # sub-word level: whether the compound is split the same way (or too often, too little)
-        # sub-consideration: editing distance of splits perhaps? more complicated, but
-        # should give some nuance if a split is off by just one character it might be considered acceptable
-        # perhaps it should be a fuzzy passing grade
-        # So sub-word EXACT
-        # sub-word +1 tolerance
-        # sub-word +2 tolerance
-    finally:
-        method.stop()
+    # TODO:
+    # precision recall
+    # word level: compound split is is either considered wrong or false
+    # sub-word level: whether the compound is split the same way (or too often, too little)
+    # sub-consideration: editing distance of splits perhaps? more complicated, but
+    # should give some nuance if a split is off by just one character it might be considered acceptable
+    # perhaps it should be a fuzzy passing grade
+    # So sub-word EXACT
+    # sub-word +1 tolerance
+    # sub-word +2 tolerance
 
     return {
         "precision": splitted_correctly / splitted if splitted else nan,
         "recall": splitted_correctly / compounds if compounds else nan,
         "accuracy": (passed_correctly + splitted_correctly) / len(test_set),
+        "skipped": skipped,
+    }
+
+
+def call_method(method_name: str, test_set: List[Tuple[str, str]]):
+    method = get_method(method_name)
+    print("METHOD:", method_name)
+    start = perf_counter()
+    method.start()
+    splits = []
+    started = perf_counter()
+    try:
+        for compound, expected in test_set:
+            actual = split(method, compound)
+
+            splits.append(actual)
+    finally:
+        done = perf_counter()
+        method.stop()
+
+    return {
         "splits": splits,
-        "skipped": skipped
+        "startup_time": started - start,
+        "parse_time": done - started
     }
 
 
@@ -246,6 +293,7 @@ if __name__ == '__main__':
         for stat in stats:
             skipped = stat["skipped"]
             splits = stat["splits"]
+            parse_time = stat["parse_time"]
             precision = stat["precision"]
             recall = stat["recall"]
             accuracy = stat["accuracy"]
@@ -254,6 +302,7 @@ if __name__ == '__main__':
             if skipped > 0:
                 print(f"Skipped:   {skipped} !!!")
             print("F1:        " + str(2 * (precision*recall) / (precision+recall)))
+            print(f"Duration:  {parse_time} seconds")
             print(f"Precision: {precision}")
             print(f"Recall:    {recall}")
             print(f"Accuracy:  {accuracy}\n\n")
