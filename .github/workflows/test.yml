@@ -47,11 +47,15 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
     - name: Check types with Mypy
+    # strange build error running mypy: explicitly specify filenames
       run: |
         pip install mypy
         mypy -p compound_splitter
         mypy -p methods
-        mypy *.py
+        mypy format_noun_table_for_testing.py
+        mypy prepare.py
+        mypy setup.py
+        mypy retrieve.py
     - name: Retrieve and prepare compound splitters
       run: |
         python ./retrieve.py
