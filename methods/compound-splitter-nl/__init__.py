@@ -14,7 +14,7 @@ BIN_DIR = os.path.join(OWN_DIR, "bin")
 server_proc = None
 
 
-def split(word: str):
+def retrieve(word: str):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as connection:
         connection.connect((HOST, PORT))
         connection.sendall((word + "\n").encode())
@@ -23,12 +23,38 @@ def split(word: str):
         splitted = connection.recv(1024).decode().rstrip()
         if not splitted:
             # no split applied
-            splitted = word
+            return word
+        return splitted
 
+
+def attempt_split(word: str, attempt=0):
+    try:
+        if attempt == 0:
+            # try getting the answer straight away
+            return retrieve(word)
+        elif attempt == 1:
+            # if it fails, wait 10 seconds and try again
+            sleep(10)
+            return retrieve(word)
+        elif attempt == 2:
+            # restart the server and try again
+            stop()
+            sleep(10)
+            start()
+            return retrieve(word)
+        elif attempt == 3:
+            # give up, just return the word
+            return word
+    except OSError:
+        return attempt_split(word, attempt + 1)
+
+
+def split(word: str):
+    splitted = attempt_split(word)
     return {
         "candidates": [
             {
-                "parts": splitted.split(" "),
+                "parts": splitted.replace("-", " ").split(" "),
                 "score": 1
             }
         ]

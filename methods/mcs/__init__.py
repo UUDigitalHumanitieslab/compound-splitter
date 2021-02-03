@@ -1,4 +1,5 @@
 import os
+
 from shutil import copyfile
 import subprocess
 
@@ -21,10 +22,13 @@ def split(word: str):
 
     # parse and format output
     def result(candidate_rank, candidate_output):
-        fields = candidate_output.split("\t")
-        parts = fields[6].lower().split()
-        score = 1 / (candidate_rank + 1)
-        return {"parts": parts, "score": score}
+        try:
+            fields = candidate_output.split("\t")
+            parts = fields[6].lower().split() if len(fields) > 1 else [word]
+            score = 1 / (candidate_rank + 1)
+            return {"parts": parts, "score": score}
+        except Exception as err:
+            raise RuntimeError(f"Problem parsing {word} -> {candidate_output}") from err
 
     candidates = [result(rank, output) for rank, output in enumerate(total_output.splitlines())]
     return {"candidates": candidates}
