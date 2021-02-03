@@ -1,5 +1,6 @@
 import os
 import urllib.request
+from typing import cast
 
 target_dir = "dependencies"
 files = [{
@@ -37,9 +38,9 @@ files = [{
 os.makedirs(target_dir, exist_ok=True)
 
 for file in files:
-    target = os.path.join(target_dir, file["filename"])
+    target = os.path.join(target_dir, cast(str, file["filename"]))
     if not os.path.exists(target):
-        url = file["url"]
+        url = cast(str, file["url"])
 
         request = urllib.request.Request(url)
 

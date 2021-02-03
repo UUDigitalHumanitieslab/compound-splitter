@@ -49,7 +49,9 @@ jobs:
     - name: Check types with Mypy
       run: |
         pip install mypy
-        mypy **/*.py
+        mypy -p compound_splitter
+        mypy -p methods
+        mypy *.py
     - name: Retrieve and prepare compound splitters
       run: |
         python ./retrieve.py
