@@ -1,0 +1,56 @@
+cff-version: 1.2.0
+title: compound-splitters-nl
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - name: 'Research Software Lab, Centre for Digital Humanities, Utrecht University'
+    website: 'https://cdh.uu.nl/centre-for-digital-humanities/research-software-lab/'
+    email: cdh@uu.nl
+    city: Utrecht
+    country: NL
+repository-code: >-
+  https://github.com/UUDigitalHumanitieslab/compound-splitter
+abstract: >-
+  Wrapper and evaluation service for multiple Dutch compound
+  splitters 
+license: BSD-3-Clause
+version: 0.0.1
+references:
+  - title: compound-splitter-nl
+    authors:
+      - given-names: Katja
+        family-names: Hoffman
+      - given-names: Valentin
+        family-names: Jijkoun
+      - given-names: Jaap
+        family-names: Kamps
+      - given-names: Christof
+        family-names: Monz
+    type: software
+    license: LGPL-3.0
+    url: https://web.archive.org/web/20200813005715/https://ilps.science.uva.nl/resources/compound-splitter-nl/
+  - title: SECOS
+    authors:
+      - given-names: Martin
+        family-names: Riedl
+      - given-names: Chris
+        family-names: Biemann
+    type: software
+    license: Apache-2.0
+    url: https://github.com/riedlma/SECOS
+  - title: Unsupervised Compound Splitting With Distributional Semantics Rivals Supervised Methods
+    type: article
+    authors:
+      - given-names: Martin
+        family-names: Riedl
+      - given-names: Chris
+        family-names: Biemann
+    url: https://aclanthology.org/N16-1075.pdf
+  - title: MOP Compound Splitter (MCS)
+    authors:
+      - given-names: Patrick
+        family-names: Ziering
+    type: software
+    url: https://www.ims.uni-stuttgart.de/en/research/resources/tools/mcs/
