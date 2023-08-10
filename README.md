@@ -18,7 +18,21 @@ As a baseline, we also include a "never" algorithm, which never splits.
 - Python 3.6+
 - Java (only required for MCS)
 
-Quick install:
+## Installation
+
+To install via pip:
+
+```bash
+pip install compound-splitters-nl
+```
+
+If you want to use the web API, you will need to install additional dependencies:
+
+```bash
+pip install compound-splitters-nl[web_api]
+```
+
+Alternatively, clone the source code repository and run installation with:
 
 ``` bash
 pip install -r requirements.txt
@@ -71,14 +85,4 @@ Connected to localhost.
 Escape character is '^]'.
 bedrijfsaansprakelijkheidsverzekering,secos
 bedrijfs,aansprakelijkheids,verzekeringConnection closed by foreign host.
-```
-
-## Install
-
-Make sure the requirements are installed and prepared ( `prepare.py` ).
-
-``` bash
-python setup.py install
-compound-splitters-nl-api # starts the web API
-compound-splitters-nl-socket # start the socket server
 ```
