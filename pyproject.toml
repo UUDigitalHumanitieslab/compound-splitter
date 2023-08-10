@@ -42,7 +42,10 @@ compound-splitters-nl-socket = "compound_splitter.socket_server:main"
 packages = ["compound_splitter", "methods", "test_sets", "tests"]
 
 [tool.setuptools.package-data]
-mypkg = [
+methods = [
     "methods/*/run.json",
-    "methods/*/bin/**/*"
+    "methods/*/bin/**/*",
+]
+test_sets = [
+    "*",
 ]
