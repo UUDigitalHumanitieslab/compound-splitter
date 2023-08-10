@@ -2,7 +2,7 @@
 
 This is a basic wrapper for multiple Dutch compound splitters. The purpose of this wrapper is to:
 
-- provide a single (web socket) service for multiple compound splitters with a unified API
+- provide a unified API for multiple compound splitters. The package offers a simple socket server and a Flask application for this purpose.
 - evaluate the accuracy of different compound splitters
 
 The following compound splitters are included:
