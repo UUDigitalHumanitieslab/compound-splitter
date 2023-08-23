@@ -1,5 +1,7 @@
 # Compound Splitter
 
+[![DOI](https://zenodo.org/badge/282840038.svg)](https://zenodo.org/badge/latestdoi/282840038)
+
 This is a basic wrapper for multiple Dutch compound splitters. The purpose of this wrapper is to:
 
 - provide a unified API for multiple compound splitters. The package offers a simple socket server and a Flask application for this purpose.
@@ -20,27 +22,32 @@ As a baseline, we also include a "never" algorithm, which never splits.
 
 ## Installation
 
-To install via pip:
+### Installing with pip
+
+`compound-splitters-nl` is available as a python package, which includes all the data for all included compound splitter methods. This complete package is too large to be registered on PyPI, but you can download the package from our [releases](https://github.com/UUDigitalHumanitieslab/compound-splitter/releases/).
+
+The archived package can be installed via pip by installing the local file:
 
 ```bash
-pip install compound-splitters-nl
+pip install compound-splitters-nl-*.tar.gz
+# or substitute with your file path
 ```
 
 If you want to use the web API, you will need to install additional dependencies:
 
 ```bash
-pip install compound-splitters-nl[web_api]
+pip install compound-splitters-nl-*.tar.gz[web_api]
 ```
 
-Alternatively, clone the source code repository and run installation with:
+### Installing from source code
+
+You can also clone the source code repository. In this case, you will still need to download and unpack the data needed for the compound splitter methods. Run installation with:
 
 ``` bash
 pip install -r requirements.txt
 python retrieve.py
 python prepare.py
 ```
-
-This will download and unpack all algorithms.
 
 ## Tests
 
