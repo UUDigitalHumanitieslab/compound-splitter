@@ -1,0 +1,51 @@
+[build-system]
+requires      = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "compound-splitters-nl"
+authors = [
+    {name = "Sheean Spoel", email = "s.j.j.spoel@uu.nl"},
+    {name = "Luka van der Plas"},
+]
+description = "Wrapper and evaluation service for multiple Dutch compound splitters"
+readme = "readme.md"
+requires-python = ">=3.7"
+keywords=["compound splitter", "nlp", "computational linguistics", "dutch"]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Topic :: Text Processing :: Linguistic",
+    "Programming Language :: Python :: 3.7",
+    "Operating System :: POSIX",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    'License :: OSI Approved :: BSD License',
+]
+dependencies = [
+    "requests",
+]
+version = "0.0.0"
+
+[project.optional-dependencies]
+dev = ["pytest"]
+web_api = ["Flask"]
+
+[project.urls]
+Repository = "https://github.com/UUDigitalHumanitieslab/compound-splitter"
+
+[projects.scripts]
+compound-splitters-nl-api = "compound_splitter.api_web:main"
+compound-splitters-nl-socket = "compound_splitter.socket_server:main"
+
+[tool.setuptools]
+packages = ["compound_splitter", "methods", "test_sets", "tests"]
+
+[tool.setuptools.package-data]
+methods = [
+    "methods/*/run.json",
+    "methods/*/bin/**/*",
+]
+test_sets = [
+    "*",
+]

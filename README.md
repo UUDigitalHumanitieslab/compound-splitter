@@ -1,16 +1,46 @@
 # Compound Splitter
 
-This is a basic wrapper for multiple Dutch compound splitters.
+This is a basic wrapper for multiple Dutch compound splitters. The purpose of this wrapper is to:
+
+- provide a unified API for multiple compound splitters. The package offers a simple socket server and a Flask application for this purpose.
+- evaluate the accuracy of different compound splitters
+
+The following compound splitters are included:
+
+- `compound-splitter-nl`, developed by Katja Hoffman, Valentin Jijkoun, Jaap Kamps, and Christof Monz (LGPL-3.0 license). See https://web.archive.org/web/20200813005715/https://ilps.science.uva.nl/resources/compound-splitter-nl/ for the archived website and https://github.com/bminixhofer/ilps-nl-splitter for an archive of the source code.
+- SECOS, developed by Martin Riedel and Chris Biemann (Apache-2.0 license). See https://github.com/riedlma/SECOS 
+- MCS, developed by Patrick Ziering. See https://www.ims.uni-stuttgart.de/en/research/resources/tools/mcs/
+
+As a baseline, we also include a "never" algorithm, which never splits.
 
 ## Requirements
 
-Python 3.6+
+- Python 3.6+
+- Java (only required for MCS)
+
+## Installation
+
+To install via pip:
+
+```bash
+pip install compound-splitters-nl
+```
+
+If you want to use the web API, you will need to install additional dependencies:
+
+```bash
+pip install compound-splitters-nl[web_api]
+```
+
+Alternatively, clone the source code repository and run installation with:
 
 ``` bash
 pip install -r requirements.txt
 python retrieve.py
 python prepare.py
 ```
+
+This will download and unpack all algorithms.
 
 ## Tests
 
@@ -55,14 +85,4 @@ Connected to localhost.
 Escape character is '^]'.
 bedrijfsaansprakelijkheidsverzekering,secos
 bedrijfs,aansprakelijkheids,verzekeringConnection closed by foreign host.
-```
-
-## Install
-
-Make sure the requirements are installed and prepared ( `prepare.py` ).
-
-``` bash
-python setup.py install
-compound-splitters-nl-api # starts the web API
-compound-splitters-nl-socket # start the socket server
 ```

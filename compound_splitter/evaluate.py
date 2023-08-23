@@ -7,16 +7,38 @@ from typing import Tuple, List
 from .splitter import get_method, list_methods
 
 COMPOUND_SPLIT_CHAR = "_"
+'''Character used to mark where string is split by a compound splitter'''
+
 COMPOUND_INFIX_TOLERANCE = 4
+'''
+Maximum size of infixes that may be dropped when splitting.
+
+For a word like `watersnood`, a splitter may
+return `waters_nood` or `water_nood` (dropping the `-s-` infix).
+Both of these should be treated as correct results.
+'''
 
 MAX_TEST_SET_SIZE = 100
+'''
+Maximum number of words to evaluate per test set
 
+If the test set is larger, a random sample will be evaluated.
+'''
 
 class MisalignedError(Exception):
     pass
 
 
 def compare_methods():
+    '''
+    Report an evaluation of all compound split methods per test set.
+
+    Returns a generator which returns for each test set:
+    - the name of the set
+    - the data
+    - evaluation statistics
+    '''
+    
     for test_set_name, test_set in read_test_sets():
         stats = list(evaluate_methods(test_set))
         stats.sort(key=lambda item: item["accuracy"], reverse=True)
@@ -28,6 +50,16 @@ def compare_methods():
 
 
 def read_test_sets():
+    '''
+    Import data from all test sets
+
+    Each test set should be a CSV file in the test_sets directory.
+    If the number of items in the set is greater than 100,
+    a random sample will be used.
+    
+    Returns a generator which yields the name and data for each file.
+    '''
+    
     dirname = os.path.dirname(__file__)
     test_sets_dir = os.path.join(dirname, "..", "test_sets")
     for test_set_name in os.listdir(test_sets_dir):
@@ -47,8 +79,9 @@ def read_test_sets():
 
 
 def only_main(compound: str):
-    """Convert a splitted compound into a compound only split into
-    a main compound and its satelite e.g. fietsen_stalling_pas ->
+    """
+    Convert a splitted compound into a compound only split into
+    a main component and its satelite e.g. fietsen_stalling_pas ->
     fietsenstalling_pas
 
     Args:
@@ -61,6 +94,12 @@ def only_main(compound: str):
 
 
 def evaluate_methods(test_set: List[Tuple[str, str]]):
+    '''
+    Evaluate all compound split methods on a test set
+
+    Returns a dictionary with evaluation results
+    '''
+    
     methods = list_methods()
     main_test_set = list(
         (compound, only_main(expected)) for (compound, expected) in test_set)
@@ -83,6 +122,17 @@ def evaluate_methods(test_set: List[Tuple[str, str]]):
 
 
 def split(method, compound: str) -> str:
+    '''
+    Split a compound using a method
+
+    Result is a string where splits are marked with _,
+    e.g. `"kwaliteitscontrole"` -> `"kwaliteits_controle"`.
+
+    If the method returns multiple results, the highest-scoring
+    result is selected. If the method returns no results,
+    returns the word without splits.
+    '''
+    
     candidates = method.split(compound)["candidates"]
     highest_score = 0
     best_candidate = None
@@ -101,6 +151,16 @@ def split(method, compound: str) -> str:
 def evaluate_method(method_name: str,
                     test_set: List[Tuple[str, str]],
                     splits: List[str]):
+    '''
+    Run evaluation on the results of a method
+
+    Returns a dict with evaluation statistics, namely:
+    - precision (ratio of splits that was correct)
+    - recall (ratio of places where words should have been split, where the method did so)
+    - accuracy (ratio of words that were split correctly)
+    - skipped (number of words with invalid results)
+    '''
+    
     skipped = 0
     # number of correctly passed through words
     # i.e. words which weren't split and should not have been split
@@ -150,6 +210,11 @@ def evaluate_method(method_name: str,
 
 
 def call_method(method_name: str, test_set: List[Tuple[str, str]]):
+    '''
+    Call a compound split method and run it for everything
+    in a test set.
+    '''
+    
     method = get_method(method_name)
     print("METHOD:", method_name)
     start = perf_counter()
@@ -173,6 +238,24 @@ def call_method(method_name: str, test_set: List[Tuple[str, str]]):
 
 
 def score(actual: str, expected: str) -> Tuple[int, int, int]:  # noqa: C901
+    '''
+    Score the split of a single word
+
+    Input:
+    - `actual`: the result of the compound splitter
+    - `expected`: the correct split
+
+    Both of these should be strings with _ marking where
+    the word is split.
+
+    Returns a tuple of:
+    - the number of false negatives (places where the word
+    should have been split, but wasn't)
+    - the number of false positives (places where the word
+    should not have been split, but was)
+    - the number of true positives (correct splits)
+    '''
+    
     actual_len = len(actual)
     expected_len = len(expected)
 

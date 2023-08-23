@@ -9,6 +9,15 @@ class TCPHandler(socketserver.BaseRequestHandler):
     "Request handler class"
 
     def handle(self):
+        '''
+        Handle a request to split a compound
+
+        Data of the request must be of form "lemma,method"
+
+        Returns the output of the splitter as a comma-separated
+        string of the parts
+        '''
+
         self.data = self.request.recv(1024).strip()
 
         # parse data
@@ -41,11 +50,21 @@ class TCPHandler(socketserver.BaseRequestHandler):
 
 
 def cleanup():
+    '''
+    Executed on shutdown.
+
+    Run the `stop` function of each method
+    '''
+    
     for method in started_methods.values():
         method.stop()
 
 
 def main():
+    '''
+    Start a socket server at localhost:7005
+    '''
+
     HOST, PORT = "localhost", 7005
     print("Listening at {}:{}".format(HOST, PORT))
     try:
