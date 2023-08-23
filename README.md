@@ -7,6 +7,16 @@ This is a basic wrapper for multiple Dutch compound splitters. The purpose of th
 - provide a unified API for multiple compound splitters. The package offers a simple socket server and a Flask application for this purpose.
 - evaluate the accuracy of different compound splitters
 
+## Intended audience
+
+The package was initially developed for [T-scan](https://github.com/UUDigitalHumanitieslab/tscan), a natural language analysis application intended for research. For T-scan, we required that users could choose between different algorithms (hence the need for a unified API), and some evaluation of the quality of those algorithms.
+
+The resulting package is useful if you want to run a compound splitting service (e.g. as part of an API or web application), or if you want to evaluate compound splitter methods. Adding new methods, even ones that are not python packages, should be feasible if you have programming experience.
+
+If you are looking for a simple, lightweight python package for compound splitting, this is not it. [compound-word-splitter](https://github.com/TimKam/compound-word-splitter) may be a good alternative for you.
+
+## Compound splitting methods
+
 The following compound splitters are included:
 
 - `compound-splitter-nl`, developed by Katja Hoffman, Valentin Jijkoun, Jaap Kamps, and Christof Monz (LGPL-3.0 license). See https://web.archive.org/web/20200813005715/https://ilps.science.uva.nl/resources/compound-splitter-nl/ for the archived website and https://github.com/bminixhofer/ilps-nl-splitter for an archive of the source code.
