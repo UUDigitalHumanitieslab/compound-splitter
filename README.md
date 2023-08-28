@@ -103,3 +103,13 @@ Escape character is '^]'.
 bedrijfsaansprakelijkheidsverzekering,secos
 bedrijfs,aansprakelijkheids,verzekeringConnection closed by foreign host.
 ```
+
+## Install
+
+Make sure the requirements are installed and prepared ( `prepare.py` ).
+
+``` bash
+pip install -e .
+compound-splitters-nl-api # starts the web API
+compound-splitters-nl-socket # start the socket server
+```
