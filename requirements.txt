@@ -14,7 +14,7 @@ click==8.1.6
     # via flask
 exceptiongroup==1.1.2
     # via pytest
-flask==2.3.2
+flask==2.2.5
     # via compound-splitters-nl (pyproject.toml)
 idna==2.10
     # via requests
@@ -40,5 +40,5 @@ tomli==2.0.1
     # via pytest
 urllib3==1.25.10
     # via requests
-werkzeug==2.3.6
+werkzeug==2.2.3
     # via flask

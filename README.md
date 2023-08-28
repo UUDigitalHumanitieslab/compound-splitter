@@ -27,7 +27,7 @@ As a baseline, we also include a "never" algorithm, which never splits.
 
 ## Requirements
 
-- Python 3.6+
+- Python 3.8+
 - Java (only required for MCS)
 
 ## Installation

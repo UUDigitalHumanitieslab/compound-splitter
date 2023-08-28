@@ -61,5 +61,5 @@ with open(output_file, 'w') as out_file:
     writer.writeheader()
 
     for word, parts in words_parts.items():
-        if parts:
+        if parts is not None:
             writer.writerow({'compound': word, 'expected': parts})
