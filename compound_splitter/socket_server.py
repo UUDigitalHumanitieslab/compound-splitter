@@ -55,7 +55,7 @@ def cleanup():
 
     Run the `stop` function of each method
     '''
-    
+
     for method in started_methods.values():
         method.stop()
 

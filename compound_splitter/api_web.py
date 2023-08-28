@@ -18,7 +18,7 @@ def get_split(method_name: str, compound: str):
     If this is the first time the method is called
     during runtime, run its `start` method.
     '''
-    
+
     if method_name in started_methods:
         method = started_methods[method_name]
     else:
@@ -34,14 +34,14 @@ def get_list():
     '''
     Return an array of all available methods.
     '''
-    
+
     methods = list_methods()
     return jsonify(methods)
 
 
 def cleanup():
     '''
-    Execute teardown for each method that has 
+    Execute teardown for each method that has
     been started up.
     '''
 

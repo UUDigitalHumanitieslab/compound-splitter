@@ -25,6 +25,7 @@ Maximum number of words to evaluate per test set
 If the test set is larger, a random sample will be evaluated.
 '''
 
+
 class MisalignedError(Exception):
     pass
 
@@ -38,7 +39,7 @@ def compare_methods():
     - the data
     - evaluation statistics
     '''
-    
+
     for test_set_name, test_set in read_test_sets():
         stats = list(evaluate_methods(test_set))
         stats.sort(key=lambda item: item["accuracy"], reverse=True)
@@ -56,10 +57,10 @@ def read_test_sets():
     Each test set should be a CSV file in the test_sets directory.
     If the number of items in the set is greater than 100,
     a random sample will be used.
-    
+
     Returns a generator which yields the name and data for each file.
     '''
-    
+
     dirname = os.path.dirname(__file__)
     test_sets_dir = os.path.join(dirname, "..", "test_sets")
     for test_set_name in os.listdir(test_sets_dir):
@@ -99,7 +100,7 @@ def evaluate_methods(test_set: List[Tuple[str, str]]):
 
     Returns a dictionary with evaluation results
     '''
-    
+
     methods = list_methods()
     main_test_set = list(
         (compound, only_main(expected)) for (compound, expected) in test_set)
@@ -132,7 +133,7 @@ def split(method, compound: str) -> str:
     result is selected. If the method returns no results,
     returns the word without splits.
     '''
-    
+
     candidates = method.split(compound)["candidates"]
     highest_score = 0
     best_candidate = None
@@ -160,7 +161,7 @@ def evaluate_method(method_name: str,
     - accuracy (ratio of words that were split correctly)
     - skipped (number of words with invalid results)
     '''
-    
+
     skipped = 0
     # number of correctly passed through words
     # i.e. words which weren't split and should not have been split
@@ -214,7 +215,7 @@ def call_method(method_name: str, test_set: List[Tuple[str, str]]):
     Call a compound split method and run it for everything
     in a test set.
     '''
-    
+
     method = get_method(method_name)
     print("METHOD:", method_name)
     start = perf_counter()
@@ -255,7 +256,7 @@ def score(actual: str, expected: str) -> Tuple[int, int, int]:  # noqa: C901
     should not have been split, but was)
     - the number of true positives (correct splits)
     '''
-    
+
     actual_len = len(actual)
     expected_len = len(expected)
 

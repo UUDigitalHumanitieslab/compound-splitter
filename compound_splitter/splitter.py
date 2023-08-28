@@ -12,7 +12,7 @@ class Module:
     '''
     Object representing a python module with compound splitting functions.
     '''
-    
+
     def __init__(self, name: str, run_data):
         self.module = cast(Any, importlib.import_module(f"methods.{name}"))
 
@@ -56,7 +56,7 @@ def get_method_data(name: str):
     Opens the `run.json` file in the method directory
     and returns its contents.
     '''
-    
+
     with open(os.path.join(METHODS_DIR, name, 'run.json')) as run_json:
         return json.load(run_json)
 
@@ -70,7 +70,7 @@ def get_method(name: str):
     Output is a python object with `split`, `start`,
     `stop`, and `prepare` methods.
     '''
-    
+
     run_data = get_method_data(name)
     method = {
         'module': Module(name, run_data)
@@ -87,7 +87,7 @@ def list_methods():
     and read the JSON configuration for each. Returns a dict
     with metadata for each method.
     '''
-    
+
     methods = []
     for name in os.listdir(METHODS_DIR):
         if name == "__pycache__":
