@@ -62,3 +62,18 @@ jobs:
     - name: Run evaluation
       run: |
         python -m compound_splitter.evaluate
+    - name: Install as pip package
+      run: |
+        python3 setup.py sdist --formats zip
+        pip install dist/*.zip
+    - name: Test HTTP API
+      run: |
+        compound-splitters-nl-api &
+        sleep 1
+        response=$(curl 127.0.0.1:5000/list --write-out '%{http_code}' --output /dev/null --silent)
+        if [[ $response -ne "200" ]]; then exit -1; fi
+    - name: Test socket
+        compound-splitters-nl-socket &
+        sleep 1
+        response=$(echo -e 'test,never' | telnet localhost 7005 | grep Connected )
+        if [ -z "$response" ]; then exit -1; fi
