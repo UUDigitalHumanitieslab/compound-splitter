@@ -8,7 +8,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         python-version: [3.7]
@@ -73,6 +73,7 @@ jobs:
         response=$(curl 127.0.0.1:5000/list --write-out '%{http_code}' --output /dev/null --silent)
         if [[ $response -ne "200" ]]; then exit -1; fi
     - name: Test socket
+      run: |
         compound-splitters-nl-socket &
         sleep 1
         response=$(echo -e 'test,never' | telnet localhost 7005 | grep Connected )
